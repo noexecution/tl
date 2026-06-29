@@ -95,7 +95,7 @@ public class SimpleKeyboardService extends InputMethodService {
         
     }
 
-	private volatile boolean isFinish=false;
+	private static volatile boolean isFinish=false;
 
     @Override
     public void onWindowHidden() {

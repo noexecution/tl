@@ -716,16 +716,7 @@ public class SimpleKeyboardService extends InputMethodService {
         return (flags & systemMask) != 0;
     } catch (Throwable ignored) {
         return false;
-    } }
-
-
-	private boolean isPassword() {
-    android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
-    if (info == null) return false;    
-    return ((info.inputType & android.text.InputType.TYPE_MASK_CLASS) == android.text.InputType.TYPE_CLASS_TEXT && (info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD)
-         || ((info.inputType & android.text.InputType.TYPE_MASK_CLASS) == android.text.InputType.TYPE_CLASS_NUMBER && (info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_NUMBER_VARIATION_PASSWORD)
-         || ((info.inputType & android.text.InputType.TYPE_MASK_VARIATION) == android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
-	}
+    } }	
 
 
 	private class TouchListener implements View.OnTouchListener {

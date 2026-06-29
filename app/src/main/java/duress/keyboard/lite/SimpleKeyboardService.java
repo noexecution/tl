@@ -55,6 +55,8 @@ public class SimpleKeyboardService extends InputMethodService {
     ); }
 
 
+	private void UniversalCircorus() {
+	}
 	    
 	@Override
     public void onWindowShown() {

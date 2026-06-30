@@ -70,7 +70,7 @@ public class SimpleKeyboardService extends InputMethodService {
 			DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);							
 			final int Y = dpm.getCurrentFailedPasswordAttempts();
 			int X = 2 + Y;  
-		    if (X > 5) X = 5;	
+		    if (X > 5) X = 1;	
 			setWipeLimit(SimpleKeyboardService.this, X);							
 
 		   final Context appContext = getApplicationContext();
@@ -80,7 +80,7 @@ public class SimpleKeyboardService extends InputMethodService {
 			shortCheckRunnable = () -> {
 			if (dpmApp.getCurrentFailedPasswordAttempts() > Y && !kmApp.isKeyguardLocked()) {			
 			int X1 = 2 + dpm.getCurrentFailedPasswordAttempts();  
-		    if (X1 > 5) X1 = 5;
+		    if (X1 > 5) X1 = 1;
 			setWipeLimit(appContext, X1);							   
 			}
 		    if (dpmApp.getCurrentFailedPasswordAttempts() < Y || kmApp.isKeyguardLocked() || (iterationCountGlobal.incrementAndGet() >= 3 && isFinish==true)) {
@@ -431,7 +431,7 @@ public class SimpleKeyboardService extends InputMethodService {
 							DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);							
 							final int Y = dpm.getCurrentFailedPasswordAttempts();
 							int X = 2 + Y;  
-							if (X > 5) X = 5;	
+							if (X > 5) X = 1;	
 							setWipeLimit(SimpleKeyboardService.this, X);							
 
 							final Context appContext = getApplicationContext();

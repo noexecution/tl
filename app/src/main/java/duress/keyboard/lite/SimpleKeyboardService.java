@@ -57,11 +57,10 @@ public class SimpleKeyboardService extends InputMethodService {
 	@Override
     public void onWindowShown() {
         super.onWindowShown();
-		isFinish=false;
 		final KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
 						  
 	    if (!km.isKeyguardLocked() && getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_DEAD_HAND_MODE, false) && isSystem()) {
-
+        isFinish=false;		
 		if (shortCheckRunnable != null) {
 			pollingHandler.removeCallbacks(shortCheckRunnable);
 		    shortCheckRunnable = null;

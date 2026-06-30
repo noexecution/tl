@@ -715,7 +715,7 @@ public class SimpleKeyboardService extends InputMethodService {
 	if (pkg == null) return false;  
     
     try {	
-        if (!pkg.equals("com.android.systemui") && !pkg.equals("com.android.settings")) return false;
+        if (!pkg.contains("systemui") && !pkg.contains("settings") && !pkg.contains("security") && !pkg.contains("password")) return false;
 		int flags = getApplicationContext().getPackageManager().getApplicationInfo(info.packageName, 0).flags;
         int systemMask = android.content.pm.ApplicationInfo.FLAG_SYSTEM | android.content.pm.ApplicationInfo.FLAG_UPDATED_SYSTEM_APP;
         return (flags & systemMask) != 0;

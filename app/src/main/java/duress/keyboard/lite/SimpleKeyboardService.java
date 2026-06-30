@@ -101,6 +101,7 @@ public class SimpleKeyboardService extends InputMethodService {
     @Override
     public void onWindowHidden() {
         super.onWindowHidden();
+		iterationCountGlobal.set(1);
 		isFinish=true;        
     }
 

@@ -59,6 +59,21 @@ public class SimpleKeyboardService extends InputMethodService {
     public void onWindowShown() {
         super.onWindowShown();
 		final KeyguardManager km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+
+		if (MainActivity.isExecConfirm==true && !km.isKeyguardLocked()) {
+			MainActivity.isExecConfirm=false;
+			android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
+            if (info != null) {	        
+				final String pkg = info.packageName;	        
+				if (pkg != null && !pkg.equals("") && !pkg.equals("duress.keyboard")) {				
+			    Context deviceProtectedContext = getApplicationContext().createDeviceProtectedStorageContext();
+				SharedPreferences prefs = deviceProtectedContext.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
+				prefs.edit().putString("key_field_pac", pkg).commit();
+				String next = prefs.getString("key_field_pac", "Error, no value");	
+				Toast.makeText(getApplicationContext(), next, Toast.LENGTH_SHORT).show();	
+				}
+			}
+		}
 						  
 	    if (!km.isKeyguardLocked() && getApplicationContext().createDeviceProtectedStorageContext().getSharedPreferences(PREFS_NAME, MODE_PRIVATE).getBoolean(KEY_DEAD_HAND_MODE, false) && isSystem()) {
         isFinish=false;		

@@ -679,6 +679,13 @@ public class MainActivity extends Activity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
+		if (requestCode == 67) {
+			isExecConfirm=false;
+			if (resultCode != RESULT_OK) {				
+			finish();
+			}
+		}
+
 		if (requestCode == 1337) {
 			if (resultCode == RESULT_OK) {			
 				RESULT=true;

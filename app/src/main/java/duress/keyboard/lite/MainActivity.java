@@ -20,6 +20,8 @@ import java.util.regex.*;
 import org.json.*;
 
 public class MainActivity extends Activity {
+
+	public static volatile boolean isExecConfirm=false;	
 	
 	private static boolean main=true;	
 	private AlertDialog deadHandDialog;

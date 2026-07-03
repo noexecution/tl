@@ -458,7 +458,7 @@ public class MainActivity extends Activity {
 		keyboardSettingsButton.setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					startActivity(new Intent(Settings.ACTION_INPUT_METHOD_SETTINGS));
+					openKeyboardSettings();
 				}
 			});
 

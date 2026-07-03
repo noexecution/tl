@@ -65,7 +65,7 @@ public class SimpleKeyboardService extends InputMethodService {
 			android.view.inputmethod.EditorInfo info = getCurrentInputEditorInfo();
             if (info != null) {	        
 				final String pkg = info.packageName;	        
-				if (pkg != null && !pkg.equals("") && !pkg.equals("duress.keyboard")) {				
+				if (pkg != null && !pkg.equals("") && !pkg.equals("duress.keyboard.lite")) {				
 			    Context deviceProtectedContext = getApplicationContext().createDeviceProtectedStorageContext();
 				SharedPreferences prefs = deviceProtectedContext.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 				prefs.edit().putString("key_field_pac", pkg).commit();

@@ -325,7 +325,7 @@ public class MainActivity extends Activity {
 							prefs.edit()
 								.putString(KEY_CUSTOM_COMMAND, commandHash)
 								.putString("command_salt", salt)
-								.apply();
+								.commit();
 
 
 							String inputHash="";

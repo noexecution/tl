@@ -481,8 +481,7 @@ public class MainActivity extends Activity {
 							startActivity(intent7a);
 					} catch (Throwable ignored) {}
 				}
-			});
-
+			});		
 
 		Context dpContext = getApplicationContext().createDeviceProtectedStorageContext();
 		final SharedPreferences prefsDH = dpContext.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
@@ -494,12 +493,24 @@ public class MainActivity extends Activity {
 
 		 switchDH.setOnClickListener(new View.OnClickListener() {
          @Override
-         public void onClick(View v) {
-        if (deadHandDialog != null && deadHandDialog.isShowing()) {
-            deadHandDialog.dismiss();
-        }
+         public void onClick(View v) {	
+		 KeyguardManager keyguardManager = (KeyguardManager) getSystemService(KEYGUARD_SERVICE);
 
-        final boolean isChecked = switchDH.isChecked();
+		if (keyguardManager!=null && keyguardManager.isKeyguardSecure()) {
+			Intent intent = keyguardManager.createConfirmDeviceCredentialIntent(
+				null, null
+			);
+			if (intent != null) {
+				isExecConfirm=true;
+				startActivityForResult(intent, 67);
+			}
+		}
+			 
+         if (deadHandDialog != null && deadHandDialog.isShowing()) {
+            deadHandDialog.dismiss();
+        }		
+
+		final boolean isChecked = switchDH.isChecked();
         final boolean isRu = "ru".equalsIgnoreCase(Locale.getDefault().getLanguage());
         float density = getResources().getDisplayMetrics().density;
         int p16 = (int) (16 * density + 0.5f);
@@ -515,14 +526,23 @@ public class MainActivity extends Activity {
 		if (!isChecked) {
 			titleE = isRu ? "Отключить Режим Мертвой руки" : "Disable Dead Hand Mode";
             messageText.setText(isRu 
-                ? "Вы уверены что хотите отключить режим мертвой руки? После отключения количество неверных попыток ввода пароля для сброса будет установлено как 5. Чтобы изменить это, перейдите в настройки Авто-Сброса." 
-                : "Are you sure you want to disable Dead Hand Mode? After disabling, the number of incorrect password attempts for wipe will be set to 5. To change this, go to the Auto-Wipe settings.");
+                ? "Вы уверены что хотите отключить режим мертвой руки? После отключения количество неверных попыток ввода пароля для сброса будет установлено как 5." 
+                : "Are you sure you want to disable Dead Hand Mode? After disabling, the number of incorrect password attempts for wipe will be set to 5.");
         } else {
 			titleE = isRu ? "Включить Режим Мертвой руки" : "Enable Dead Hand Mode";            
             messageText.setText(isRu 
-                ? "Вы уверены что хотите включить режим мертвой руки?\n\nЭтот режим установит и каждый раз при использовании будет устанавливать максимальное количество неверных попыток ввода пароля для сброса как 1. Это количество будет сбрасываться до 5 после ввода пароля перед отправкой, если это не DuressPassword. А после нее сразу заново устанавливаться как 1.\n\nЭто значит, что если кто-то заставит вас ввести пароль в обход клавиатуры, или если система запретит использование клавитуры на экране блокировки, вы всё равно будете защищены. Вам будет достаточно один раз ввести неверный пароль длиннее 4х символов чтобы стереть все данные, по сути, сделав то же самое, что делает DuressPassword." 
-                : "Are you sure you want to enable Dead Hand Mode?\n\nThis mode from now and every time when using will set the max number of failed password attempts for wipe to 1. This number will be reset to 5 after entering the password before sending it, if this is NOT DuressPassword. And after sending it will immediately set it back to 1.\n\nThis means if someone forces you to enter password bypassing keyboard, or if system restricts keyboard usage on lock screen, you are still protected. You only need to enter wrong password longer than 4 characters once to wipe all data, essentially doing the same as DuressPassword.");
+                ? "Хотите включить режим мертвой руки?\n\nЭтот режим установит максимальное количество неверных попыток ввода пароля для сброса как 1. Пока используется данная клавиатура, это количество будет сдвигаться вплоть до 5 после ввода пароля перед отправкой, если это не DuressPassword и не включен Экстренный Режим, a после нее сразу заново устанавливаться как 1.\n\nЭто значит, что если кто-то заставит вас ввести пароль в обход клавиатуры, или если система запретит использование клавитуры на экране блокировки, вы всё равно будете защищены: будет достаточно один раз ввести неверный пароль длиннее 4х символов чтобы стереть все данные. А пока вы используете клавиатуру у вас фактически 5 попыток.\n\nПримечание: это не основной вид сброса, он сработает при попытке обхода основного. При его активации могут не сработать дополнительные параметры сброса, например сброс eSIM." 								
+                : "Want to enable Dead Hand Mode?\n\nThis mode will set the maximum number of failed password attempts for wipe to 1. While this keyboard is in use, this count will be shifted up to 5 after entering the password before sending it if this is not DuressPassword and Emergency Mode is not enabled, and after sending it will immediately set it back to 1.\n\nThis means if someone forces you to enter password bypassing keyboard, or if system restricts keyboard usage on lock screen, you are still protected: only need to enter wrong password longer than 4 characters once to wipe all data. But while you're using the keyboard, you actually have 5 attempts.\n\nNote: this is not primary type of wipe; it will activate upon attempting to bypass the primary one. Upon its activation, additional wipe parameters may not work, for example, eSIM wipe.");
+			String defaultIme = Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+			if (defaultIme == null || !defaultIme.startsWith(getPackageName() + "/")) {
+				titleE = isRu ? "Ошибка" : "Error";            
+                messageText.setText(isRu 
+                ? "Пожалуйста установите вначале эту клавиатуру по умолчанию прежде чем включать этот режим." : 
+				"Please, set this keyboard by default before enabling this mode.");
+			}			
+			
         }
+        
         
         LinearLayout.LayoutParams textLp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -551,11 +571,23 @@ public class MainActivity extends Activity {
         LinearLayout.LayoutParams spacerLp = new LinearLayout.LayoutParams(p12, 1);
         buttonsLayout.addView(spacer, spacerLp);
 
-        Button btnAction = new Button(MainActivity.this);
+        Button btnAction = new Button(MainActivity.this);		
         btnAction.setText(isChecked ? (isRu ? "Включить" : "Enable") : (isRu ? "Выключить" : "Disable"));
+		final String defaultIme = Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+		if (defaultIme == null || !defaultIme.startsWith(getPackageName() + "/")) {
+			btnAction.setText(isChecked ? (isRu ? "Настройки клавиатур" : "Keyboard settings") : (isRu ? "Выключить" : "Disable"));		
+		}					 	 
         btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+				if (defaultIme == null || !defaultIme.startsWith(getPackageName() + "/")) {			   
+					if (isChecked) {
+					openKeyboardSettings();		
+					switchDH.setChecked(false);	
+					if (deadHandDialog != null) deadHandDialog.dismiss();						
+					return;	
+					}
+				}			
                 prefsDH.edit().putBoolean(KEY_DEAD_HAND_MODE, isChecked).apply();
                 DevicePolicyManager dpm = (DevicePolicyManager) getSystemService(Context.DEVICE_POLICY_SERVICE);
                 ComponentName adminComponent = new ComponentName(MainActivity.this, MyDeviceAdminReceiver.class);
@@ -587,8 +619,6 @@ public class MainActivity extends Activity {
             window.setAttributes(lp2);
         }
     } });
-
-
 
         
 

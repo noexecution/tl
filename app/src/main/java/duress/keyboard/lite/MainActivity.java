@@ -47,6 +47,29 @@ public class MainActivity extends Activity {
 
 	private LinearLayout layout;
 
+	private void openKeyboardSettings() {
+
+	try { 
+		Intent std = new Intent(android.provider.Settings.ACTION_INPUT_METHOD_SETTINGS);									
+		startActivity(std); 
+	    return;	
+	} catch (Throwable t1) {}	
+		
+	try {	
+        Intent intent = new Intent().setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$KeyboardSettingsActivity"));
+        intent.putExtra(":settings:fragment_args_key", "virtual_keyboard_pref");    
+        startActivity(intent);
+		return;
+    } catch (Throwable t2) {}
+
+	try {	
+        Intent internal = new Intent().setComponent(new ComponentName("com.android.settings", "com.android.settings.Settings$KeyboardSettingsActivity"));									
+	    startActivity(internal);	
+		return;
+    } catch (Throwable t3) {}
+				
+	}	
+
 	private int dpToPx(int dp) {    
 		float density = getResources().getDisplayMetrics().density;    
 		return (int) (dp * density + 0.5f);    

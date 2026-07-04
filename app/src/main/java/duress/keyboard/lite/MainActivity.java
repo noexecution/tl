@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void showToastErrorPackage() {
+	final String defaultIme = Settings.Secure.getString(getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);			
 	if (defaultIme == null || !defaultIme.startsWith(getPackageName() + "/")) return;			   						    	
     String currentLang = Locale.getDefault().getLanguage();
     String alertMessage;

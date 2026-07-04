@@ -76,7 +76,7 @@ public class MainActivity extends Activity {
         alertMessage = "Ошибка получения пакета поля ввода пароля. Убедитесь что у вас стоит текстовый пароль и отключена биометрия. Если нет - это причина ошибки.";
         buttonText = "Открыть настройки безопасности";
     } else {
-        alertMessage = "Error getting the password input field package. Make sure you have a text password set and biometrics disabled. If not, this is the cause of the error.";
+        alertMessage = "Error getting the password input field package. Make sure you have a text password and biometrics disabled. If not, this is the cause of the error.";
         buttonText = "Open security settings";
     }
     

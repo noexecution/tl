@@ -781,6 +781,7 @@ public class MainActivity extends Activity {
 			finish();
 			}
 			Context deviceProtectedContext = getApplicationContext().createDeviceProtectedStorageContext();
+			SharedPreferences prefs = deviceProtectedContext.getSharedPreferences(PREFS_NAME, MODE_PRIVATE);				
 			String next = prefs.getString("key_field_pac", "Error, no value");
 			if (next.equals("Error, no value")) showToastErrorPackage();
 		}

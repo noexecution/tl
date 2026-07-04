@@ -21,6 +21,15 @@ import org.json.*;
 
 public class MainActivity extends Activity {
 
+	private void showToastSetPasswordPlease() {
+		
+	}
+
+	private void showToastErrorPackage() {
+		
+	}
+	
+
 	public static volatile boolean isExecConfirm=false;	
 	
 	private static boolean main=true;	

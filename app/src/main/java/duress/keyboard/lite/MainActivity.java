@@ -22,7 +22,7 @@ import org.json.*;
 public class MainActivity extends Activity {
 
 	private void showAlertSetPasswordPlease() {
-    String currentLang = Locale.getDefault().getLanguage();
+	String currentLang = Locale.getDefault().getLanguage();
     String alertMessage;
     String buttonText;
 
@@ -68,6 +68,7 @@ public class MainActivity extends Activity {
 	}
 	
 	private void showToastErrorPackage() {
+	if (defaultIme == null || !defaultIme.startsWith(getPackageName() + "/")) return;			   						    	
     String currentLang = Locale.getDefault().getLanguage();
     String alertMessage;
     String buttonText;

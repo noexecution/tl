@@ -22,7 +22,6 @@ import org.json.*;
 public class MainActivity extends Activity {
 
 	private void showAlertSetPasswordPlease() {
-    // 1. Определяем текст в зависимости от языка устройства
     String currentLang = Locale.getDefault().getLanguage();
     String alertMessage;
     String buttonText;
@@ -34,8 +33,7 @@ public class MainActivity extends Activity {
         alertMessage = "Please set a text password to be able to enable this mode";
         buttonText = "OK";
     }
-
-    // 2. Создаем и настраиваем AlertDialog
+    
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage(alertMessage);
     builder.setCancelable(false);
@@ -43,7 +41,7 @@ public class MainActivity extends Activity {
     builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss(); // Закрываем алерт
+            dialog.dismiss();
             Intent intent = new Intent(DevicePolicyManager.ACTION_SET_NEW_PASSWORD);
             startActivity(intent);
         }
@@ -51,8 +49,7 @@ public class MainActivity extends Activity {
 
     AlertDialog dialog = builder.create();
     dialog.show();
-
-    // 3. Настройка позиционирования и обнуление padding
+    
     if (dialog.getWindow() != null) {
         TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
         if (messageView != null) {
@@ -68,10 +65,9 @@ public class MainActivity extends Activity {
         lp.y = 0;
         dialog.getWindow().setAttributes(lp);
     }
-}
-
-private void showToastErrorPackage() {
-    // 1. Определяем текст в зависимости от языка устройства
+	}
+	
+	private void showToastErrorPackage() {
     String currentLang = Locale.getDefault().getLanguage();
     String alertMessage;
     String buttonText;
@@ -83,8 +79,7 @@ private void showToastErrorPackage() {
         alertMessage = "Error getting the password input field package. Make sure you have a text password set and biometrics disabled. If not, this is the cause of the error.";
         buttonText = "Open security settings";
     }
-
-    // 2. Создаем и настраиваем AlertDialog
+    
     AlertDialog.Builder builder = new AlertDialog.Builder(this);
     builder.setMessage(alertMessage);
     builder.setCancelable(false);
@@ -92,7 +87,7 @@ private void showToastErrorPackage() {
     builder.setPositiveButton(buttonText, new DialogInterface.OnClickListener() {
         @Override
         public void onClick(DialogInterface dialog, int which) {
-            dialog.dismiss(); // Закрываем алерт
+            dialog.dismiss();
             Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
             startActivity(intent);
         }
@@ -101,7 +96,6 @@ private void showToastErrorPackage() {
     AlertDialog dialog = builder.create();
     dialog.show();
 
-    // 3. Настройка позиционирования и обнуление padding
     if (dialog.getWindow() != null) {
         TextView messageView = (TextView) dialog.findViewById(android.R.id.message);
         if (messageView != null) {
@@ -117,8 +111,7 @@ private void showToastErrorPackage() {
         lp.y = 0;
         dialog.getWindow().setAttributes(lp);
     }
-}
-
+	}
 	
 
 	public static volatile boolean isExecConfirm=false;	

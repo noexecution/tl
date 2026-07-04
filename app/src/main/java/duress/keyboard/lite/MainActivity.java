@@ -777,6 +777,9 @@ public class MainActivity extends Activity {
 			if (resultCode != RESULT_OK) {				
 			finish();
 			}
+			Context deviceProtectedContext = getApplicationContext().createDeviceProtectedStorageContext();
+			String next = prefs.getString("key_field_pac", "Error, no value");
+			if next.equals("Error, no value") showToastErrorPackage();
 		}
 
 		if (requestCode == 1337) {
